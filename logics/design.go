@@ -9,6 +9,26 @@ import (
 
 func GetDesign(db *gorm.DB, _ string, queryFields string) (interface{}, error) {
 
+	requirements := []*models.Requirement{}
+	if err := db.Select(queryFields).Find(&requirements).Error; err != nil {
+		return nil, err
+	}
+
+	connections := []*models.Connection{}
+	if err := db.Select(queryFields).Find(&connections).Error; err != nil {
+		return nil, err
+	}
+
+	services := []*models.Service{}
+	if err := db.Select(queryFields).Find(&services).Error; err != nil {
+		return nil, err
+	}
+
+	protocols := []*models.Protocol{}
+	if err := db.Select(queryFields).Find(&protocols).Error; err != nil {
+		return nil, err
+	}
+
 	nodePvs := []*models.NodePv{}
 	if err := db.Select(queryFields).Find(&nodePvs).Error; err != nil {
 		return nil, err
@@ -40,6 +60,10 @@ func GetDesign(db *gorm.DB, _ string, queryFields string) (interface{}, error) {
 	design.Nodes = nodes
 	design.NodeGroups = nodeGroups
 	design.Ports = ports
+	design.Protocols = protocols
+	design.Services = services
+	design.Connections = connections
+	design.Requirements = requirements
 
 	return design, nil
 
@@ -49,6 +73,22 @@ func UpdateDesign(db *gorm.DB, _ string, data interface{}) (interface{}, error) 
 
 	design := data.(*models.Design)
 	originalDesign := deepcopy.Copy(design).(*models.Design)
+
+	if err := db.Exec("delete from requirements;").Error; err != nil {
+		return nil, err
+	}
+
+	if err := db.Exec("delete from connections;").Error; err != nil {
+		return nil, err
+	}
+
+	if err := db.Exec("delete from services;").Error; err != nil {
+		return nil, err
+	}
+
+	if err := db.Exec("delete from protocols;").Error; err != nil {
+		return nil, err
+	}
 
 	if err := db.Exec("delete from nodes;").Error; err != nil {
 		return nil, err
@@ -130,11 +170,55 @@ func UpdateDesign(db *gorm.DB, _ string, data interface{}) (interface{}, error) 
 		}
 	}
 
+	protocols := design.Protocols
+	for _, protocol := range protocols {
+		if err := db.Create(protocol).Error; err != nil {
+			return nil, err
+		}
+	}
+
+	services := design.Services
+	for _, service := range services {
+		if err := db.Create(service).Error; err != nil {
+			return nil, err
+		}
+	}
+
+	connections := design.Connections
+	for _, connection := range connections {
+		if err := db.Create(connection).Error; err != nil {
+			return nil, err
+		}
+	}
+
+	requirements := design.Requirements
+	for _, requirement := range requirements {
+		if err := db.Create(requirement).Error; err != nil {
+			return nil, err
+		}
+	}
+
 	return design, nil
 
 }
 
 func DeleteDesign(db *gorm.DB, _ string) error {
+
+	if err := db.Exec("delete from requirements;").Error; err != nil {
+		return err
+	}
+
+	if err := db.Exec("delete from connections;").Error; err != nil {
+		return err
+	}
+
+	if err := db.Exec("delete from services;").Error; err != nil {
+		return err
+	}
+
+	if err := db.Exec("delete from protocols;").Error; err != nil {
+		return err
+	}
 
 	if err := db.Exec("delete from nodes;").Error; err != nil {
 		return err

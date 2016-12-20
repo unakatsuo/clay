@@ -34,6 +34,13 @@ func Connect() *gorm.DB {
 			&models.Port{},
 			&models.TemplateExternalParameter{},
 			&models.Template{},
+			&models.Protocol{},
+			&models.Connection{},
+			&models.Service{},
+			&models.Requirement{},
+			&models.TestCommand{},
+			&models.TestPattern{},
+			&models.TestCase{},
 		)
 	}
 

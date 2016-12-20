@@ -44,6 +44,49 @@ func Initialize(r *gin.Engine) {
 		api.PUT("/ports/:id", controllers.UpdatePort)
 		api.DELETE("/ports/:id", controllers.DeletePort)
 
+		api.GET("/protocols", controllers.GetProtocols)
+		api.GET("/protocols/:id", controllers.GetProtocol)
+		api.POST("/protocols", controllers.CreateProtocol)
+		api.PUT("/protocols/:id", controllers.UpdateProtocol)
+		api.DELETE("/protocols/:id", controllers.DeleteProtocol)
+
+		api.GET("/connections", controllers.GetConnections)
+		api.GET("/connections/:id", controllers.GetConnection)
+		api.POST("/connections", controllers.CreateConnection)
+		api.PUT("/connections/:id", controllers.UpdateConnection)
+		api.DELETE("/connections/:id", controllers.DeleteConnection)
+
+		api.GET("/services", controllers.GetServices)
+		api.GET("/services/:id", controllers.GetService)
+		api.POST("/services", controllers.CreateService)
+		api.PUT("/services/:id", controllers.UpdateService)
+		api.DELETE("/services/:id", controllers.DeleteService)
+
+		api.GET("/requirements", controllers.GetRequirements)
+		api.GET("/requirements/:id", controllers.GetRequirement)
+		api.POST("/requirements", controllers.CreateRequirement)
+		api.PUT("/requirements/:id", controllers.UpdateRequirement)
+		api.DELETE("/requirements/:id", controllers.DeleteRequirement)
+
+		api.GET("/test_commands", controllers.GetTestCommands)
+		api.GET("/test_commands/:id", controllers.GetTestCommand)
+		api.POST("/test_commands", controllers.CreateTestCommand)
+		api.PUT("/test_commands/:id", controllers.UpdateTestCommand)
+		api.DELETE("/test_commands/:id", controllers.DeleteTestCommand)
+
+		api.GET("/test_patterns", controllers.GetTestPatterns)
+		api.GET("/test_patterns/:id", controllers.GetTestPattern)
+		api.POST("/test_patterns", controllers.CreateTestPattern)
+		api.PUT("/test_patterns/:id", controllers.UpdateTestPattern)
+		api.DELETE("/test_patterns/:id", controllers.DeleteTestPattern)
+
+		api.GET("/test_cases", controllers.GetTestCases)
+		api.GET("/test_cases/:id", controllers.GetTestCase)
+		api.POST("/test_cases", controllers.CreateTestCase)
+		api.PUT("/test_cases/:id", controllers.UpdateTestCase)
+		api.DELETE("/test_cases/:id", controllers.DeleteTestCase)
+		api.PATCH("/test_cases/:id", controllers.ApplyTestCase)
+
 		api.GET("/designs/present", controllers.GetDesign)
 		api.PUT("/designs/present", controllers.UpdateDesign)
 		api.DELETE("/designs/present", controllers.DeleteDesign)
@@ -74,5 +117,6 @@ func Initialize(r *gin.Engine) {
 	ui.GET("/", func(c *gin.Context) { c.HTML(http.StatusOK, "index.tmpl", gin.H{}) })
 	ui.GET("/network", func(c *gin.Context) { c.HTML(http.StatusOK, "network.tmpl", gin.H{}) })
 	ui.GET("/diagram", func(c *gin.Context) { c.HTML(http.StatusOK, "diagram.tmpl", gin.H{}) })
+	ui.GET("/requirement", func(c *gin.Context) { c.HTML(http.StatusOK, "requirement.tmpl", gin.H{}) })
 
 }
