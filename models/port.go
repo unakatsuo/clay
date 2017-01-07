@@ -6,6 +6,7 @@ type Port struct {
 	ID                int            `json:"id" gorm:"primary_key;AUTO_INCREMENT"`
 	NodeID            int            `json:"node_id" gorm:"index" sql:"type:integer references nodes(id) on delete cascade"`
 	Node              *Node          `json:"node"`
+	Number            int            `json:"number"`
 	Name              string         `json:"name" gorm:"not null"`
 	DestinationPortID sql.NullInt64  `json:"destination_port_id" sql:"type:integer references ports(id) on delete set null"`
 	DestinationPort   *Port          `json:"destination_port"`
