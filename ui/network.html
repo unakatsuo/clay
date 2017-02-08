@@ -481,39 +481,30 @@
 					$("#edit_node_pv").val(node.node_pv.id);
 					$("#edit_node_type").val(node.node_type.id);
 
-					var dataTable = $("#port_table").dataTable();
-
 					for (var i = 0; i < node.ports.length; i = i + 1) {
 						port = node.ports[i];
-						row = dataTable.fnAddData([
-							'<input type="hidden" name="edit_port_id" value="0">' +
-							'<input type="text" name="edit_port_number" placeholder="0" class="form-control">',
-							'<input type="text" name="edit_port_name" placeholder="name" class="form-control">',
-							'<select class="form-control" name="edit_port_destination_port">',
-							'<input type="text" name="edit_port_mac_address" placeholder="00:00:00:00:00:00" value="" class="form-control">',
-							'<input type="text" name="edit_port_ipv4_address" placeholder="0.0.0.0" value = "" class="form-control">',
-							'<input type="text" name="edit_port_ipv4_prefix" placeholder="0" value = "0" class="form-control">',
-							'<button id="edit_delete_port_btn" type="button" class="btn btn-default">-</button>'
-						]);
-						/*
-						$("#edit_port_id_" + i).val(port.id);
-						$("#edit_port_name_" + i).val(port.name);
-						$("#edit_port_mac_address_" + i).val(port.mac_address.String);
-						$("#edit_port_ipv4_address_" + i).val(port.ipv4_address.String);
-						$("#edit_port_ipv4_prefix_" + i).val(port.ipv4_prefix.Int64);
-
-						$("#edit_port_destination_port_" + i).append($('<option>').val(0).text('Unplugged'));
+						row = $('<tr>')
+						row.append($('<td>').attr('width', 10).append($('<input>').attr('class', 'form-control').attr('name', 'edit_port_number').val(port.number)));
+						row.append($('<td>').append($('<input>').attr('class', 'form-control').attr('name', 'edit_port_name').val(port.name)));
+						select = $('<select>').attr('class', 'form-control').attr('name', 'edit_port_destination_port').val(0);
+						select.append($('<option>').val(0).text('Unplugged'));
 						for (var j = 0; j < nodes.length; j = j + 1) {
 							for (var k = 0; k < nodes[j].ports.length; k = k + 1) {
-								$("#edit_port_destination_port_" + i).append($('<option>').val(nodes[j].ports[k].id).text(nodes[j].name + ' - ' + nodes[j].ports[k].name));
+								option = $('<option>').val(nodes[j].ports[k].id).text(nodes[j].name + ' - ' + nodes[j].ports[k].name);
+								select.append(option);
 							}
 						}
-
 						if (port.destination_port_id.Valid) {
-							$("#edit_port_destination_port_" + i).val(port.destination_port_id.Int64)
+							select.val(port.destination_port_id.Int64);
 						}
-						*/
+						row.append($('<td>').append(select));
+						row.append($('<td>').append($('<input>').attr('class', 'form-control').attr('name', 'edit_port_mac_address').val(port.mac_address.String)));
+						row.append($('<td>').append($('<input>').attr('class', 'form-control').attr('name', 'edit_port_ipv4_address').val(port.ipv4_address.String)));
+						row.append($('<td>').append($('<input>').attr('class', 'form-control').attr('name', 'edit_port_ipv4_prefix').val(port.ipv4_prefix.Int64)));
+						row.append($('<td>').append($('<button>').attr('class', 'btn btn-info').attr('id', 'edit_delete_port_btn').text('-')));
+						$("#port_table").children().last().append(row);
 					}
+					$("#port_table").dataTable({"bJQueryUI": true});
 				}
 
 				function onNewNode() {
