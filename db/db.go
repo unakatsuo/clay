@@ -41,6 +41,7 @@ func Connect() *gorm.DB {
 			&models.TestCommand{},
 			&models.TestPattern{},
 			&models.TestCase{},
+			&models.Environment{},
 		)
 	}
 

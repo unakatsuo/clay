@@ -79,6 +79,15 @@ $ # check test case
 $ curl -X GET "localhost:8080/v1/test_cases?preloads=TestPatterns,TestPatterns.TestCommand"
 ```
 
+# Example output for git repository
+
+```
+$ # register environment
+$ curl -X POST "localhost:8080/v1/environments" -H "Content-Type: application/json" -d '{"template_id": 1, "git_repository_uri": "/data/clay_generated_conf", "design_file_name": "design.json", "template_file_name": "terraform.tf", "test_case_directory_name": "testcases"}'
+$ # commit to the git repository
+$ curl -X PATCH "localhost:8080/v1/environments/1"
+```
+
 # API Server
 
 Simple Rest API using gin(framework) & gorm(orm)

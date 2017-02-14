@@ -109,6 +109,12 @@ func Initialize(r *gin.Engine) {
 		api.DELETE("/templates/:id", controllers.DeleteTemplate)
 		api.PATCH("/templates/:id", controllers.ApplyTemplate)
 
+		api.GET("/environments", controllers.GetEnvironments)
+		api.GET("/environments/:id", controllers.GetEnvironment)
+		api.POST("/environments", controllers.CreateEnvironment)
+		api.PUT("/environments/:id", controllers.UpdateEnvironment)
+		api.DELETE("/environments/:id", controllers.DeleteEnvironment)
+		api.PATCH("/environments/:id", controllers.ApplyEnvironment)
 	}
 
 	r.Static("ui/files", "ui/files")
